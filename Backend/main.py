@@ -1,14 +1,28 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from core.config import settings
 from api.routes import router
+from database.init_db import create_tables
+
+# ------------------------------------
+# Create FastAPI App
+# ------------------------------------
 
 app = FastAPI(
-    title=settings.PROJECT_NAME,
-    description=settings.DESCRIPTION,
-    version=settings.VERSION,
+    title="MaintAI API",
+    description="AI Powered Predictive Maintenance Platform",
+    version="1.0.0",
 )
+
+# ------------------------------------
+# Create Database Tables
+# ------------------------------------
+
+create_tables()
+
+# ------------------------------------
+# CORS Configuration
+# ------------------------------------
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,5 +31,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ------------------------------------
+# Include API Routes
+# ------------------------------------
 
 app.include_router(router)
