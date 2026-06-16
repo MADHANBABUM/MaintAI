@@ -1,14 +1,21 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from core.config import settings
+from api.routes import router
 
 app = FastAPI(
-    title="MaintAI API",
-    version="1.0.0"
+    title=settings.PROJECT_NAME,
+    description=settings.DESCRIPTION,
+    version=settings.VERSION,
 )
 
-@app.get("/")
-def home():
-    return {"message": "Welcome to MaintAI API"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/health")
-def health():
-    return {"status": "healthy"}
+app.include_router(router)
