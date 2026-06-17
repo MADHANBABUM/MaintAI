@@ -1,89 +1,92 @@
 # MaintAI
 
-An AI-powered Predictive Maintenance Platform.
+AI Powered Predictive Maintenance Platform built using FastAPI and Next.js.
 
-## Project Structure
+---
 
-```text
-MaintAI/
-│
-├── Frontend/      # Next.js Frontend
-├── Backend/       # FastAPI Backend
-├── Database/      # Database Scripts
-├── Assets/        # Images & Static Files
-├── Docs/          # Documentation
-└── README.md
-```
-
-## Technology Stack
-
-### Frontend
-
-- Next.js
-- TypeScript
-- React
+## Tech Stack
 
 ### Backend
 
 - FastAPI
-- Python
-- Uvicorn
+- SQLAlchemy
+- SQLite
+- Pydantic
 
-## Run Frontend
+### Frontend
 
-```bash
-cd Frontend
-npm run dev
-```
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
 
-Runs at:
-http://localhost:3000
+---
+
+## Features
+
+- Home API
+- Health Check API
+- Dashboard Statistics
+- Create Machine
+- Get All Machines
+- Search Machines
+- Get Machine By ID
+- Update Machine
+- Delete Machine
+
+---
+
+## Project Structure
+
+MaintAI/
+
+Backend/
+
+- api/
+- core/
+- database/
+- models/
+- schemes/
+- services/
+
+Frontend/
+
+- app/
+- src/
+- public/
+
+---
 
 ## Run Backend
 
-```bash
 cd Backend
-.\venv\Scripts\Activate.ps1
-uvicorn main:app --reload
-```
 
-Runs at:
+uvicorn main:app --reload
+
+Backend URL
+
 http://127.0.0.1:8000
 
-## API Endpoints
+Swagger
 
-### GET /
+http://127.0.0.1:8000/docs
 
-Returns:
+---
 
-```json
-{
-  "message": "Welcome to MaintAI API"
-}
-```
+## Run Frontend
 
-### GET /health
+cd Frontend
 
-Returns:
+npm install
 
-```json
-{
-  "status": "healthy"
-}
-```
+npm run dev
 
-## Status
+Frontend URL
 
-- ✅ Project initialized
-- ✅ Frontend setup completed
-- ✅ Backend setup completed
-- ✅ FastAPI server running
-- ✅ Next.js development server running
+http://localhost:3000
 
-## Version
-
-v0.1.0
+---
 
 ## Author
 
-MaintAI Development Team
+MaintAI Development Project
