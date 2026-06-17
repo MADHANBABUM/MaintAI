@@ -11,7 +11,10 @@ from services.machine_service import (
     delete_machine,
 )
 
-router = APIRouter()
+router = APIRouter(
+    prefix="",
+    tags=["MaintAI API"],
+)
 
 
 # ------------------------------------
