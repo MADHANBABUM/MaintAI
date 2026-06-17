@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.routes import router
+from core.config import settings
+from core.exceptions import register_exception_handlers
 from database.init_db import create_tables
 
 # ------------------------------------
@@ -9,10 +11,16 @@ from database.init_db import create_tables
 # ------------------------------------
 
 app = FastAPI(
-    title="MaintAI API",
-    description="AI Powered Predictive Maintenance Platform",
-    version="1.0.0",
+    title=settings.PROJECT_NAME,
+    description=settings.DESCRIPTION,
+    version=settings.VERSION,
 )
+
+# ------------------------------------
+# Register Global Exception Handlers
+# ------------------------------------
+
+register_exception_handlers(app)
 
 # ------------------------------------
 # Create Database Tables
@@ -26,7 +34,9 @@ create_tables()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

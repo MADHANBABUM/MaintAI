@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from database.session import get_db
 from models.machine import Machine
 from schemes.machine import MachineCreate, MachineResponse
+from schemes.response import APIResponse
 from services.machine_service import (
     create_machine,
     update_machine,
@@ -17,14 +18,20 @@ router = APIRouter()
 # Home Endpoint
 # ------------------------------------
 
-@router.get("/", tags=["Home"])
+@router.get(
+    "/",
+    response_model=APIResponse,
+    tags=["Home"],
+)
 async def home():
-    return {
-        "success": True,
-        "message": "Welcome to MaintAI API",
-        "version": "1.0.0",
-        "status": "Running",
-    }
+    return APIResponse(
+        success=True,
+        message="Welcome to MaintAI API",
+        data={
+            "version": "1.0.0",
+            "status": "Running",
+        },
+    )
 
 
 # ------------------------------------

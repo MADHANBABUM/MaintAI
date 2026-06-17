@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
+from core.logger import logger
 from models.machine import Machine
 from schemes.machine import MachineCreate
 
@@ -29,6 +30,11 @@ def create_machine(
     db.add(new_machine)
     db.commit()
     db.refresh(new_machine)
+
+    logger.info(
+        "Machine Created: %s",
+        new_machine.machine_name,
+    )
 
     return new_machine
 
@@ -65,6 +71,11 @@ def update_machine(
     db.commit()
     db.refresh(existing_machine)
 
+    logger.info(
+        "Machine Updated: %s",
+        existing_machine.machine_name,
+    )
+
     return existing_machine
 
 
@@ -92,6 +103,11 @@ def delete_machine(
             detail="Machine not found",
         )
 
+    logger.info(
+        "Machine Deleted: %s",
+        machine.machine_name,
+    )
+
     db.delete(machine)
     db.commit()
 
@@ -99,3 +115,4 @@ def delete_machine(
         "success": True,
         "message": "Machine deleted successfully",
     }
+
