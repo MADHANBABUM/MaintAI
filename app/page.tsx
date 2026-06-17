@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-// ------------------------------------
-// Types
-// ------------------------------------
+import Sidebar from "./components/sidebar";
+import { getHome } from "../src/services/api";
 
 interface ApiResponse {
   success: boolean;
@@ -12,10 +10,6 @@ interface ApiResponse {
   version: string;
   status: string;
 }
-
-// ------------------------------------
-// Home Page
-// ------------------------------------
 
 export default function Home() {
   const [apiData, setApiData] = useState<ApiResponse>({
@@ -26,66 +20,74 @@ export default function Home() {
   });
 
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchAPI = async () => {
+    const loadData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/");
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch API");
-        }
-
-        const data: ApiResponse = await response.json();
-
+        const data = await getHome();
         setApiData(data);
-      } catch (err) {
+      } catch (error) {
         setError("Unable to connect to MaintAI Backend.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAPI();
+    loadData();
   }, []);
 
   return (
-    <main className="min-h-screen bg-slate-100 flex justify-center items-center">
-      <div className="bg-white shadow-xl rounded-xl p-10 w-[500px]">
-        <h1 className="text-4xl font-bold text-center text-blue-700">
-          MaintAI Dashboard
-        </h1>
+    <main className="min-h-screen flex bg-slate-100">
+      <Sidebar />
 
-        <div className="mt-10">
-          {loading ? (
-            <p className="text-center">Connecting to Backend...</p>
-          ) : error ? (
-            <p className="text-center text-red-600">{error}</p>
-          ) : (
-            <>
-              <p>
-                <strong>Message :</strong>
+      <section className="flex-1 p-10">
+        <div className="mb-10">
+          <h1 className="text-5xl font-bold text-slate-800">
+            MaintAI Dashboard
+          </h1>
 
+          <p className="text-gray-500 mt-3 text-lg">
+            AI Powered Predictive Maintenance Platform
+          </p>
+        </div>
+
+        {loading ? (
+          <div className="bg-white rounded-2xl shadow-lg p-10 text-center text-lg">
+            Connecting to Backend...
+          </div>
+        ) : error ? (
+          <div className="bg-red-100 text-red-700 rounded-2xl shadow-lg p-10 text-center text-lg">
+            {error}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h2 className="text-gray-500 text-sm uppercase">Message</h2>
+
+              <p className="mt-4 text-2xl font-bold text-blue-700">
                 {apiData.message}
               </p>
+            </div>
 
-              <p className="mt-3">
-                <strong>Version :</strong>
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h2 className="text-gray-500 text-sm uppercase">Version</h2>
 
+              <p className="mt-4 text-2xl font-bold text-green-600">
                 {apiData.version}
               </p>
+            </div>
 
-              <p className="mt-3">
-                <strong>Status :</strong>
+            <div className="bg-white rounded-2xl shadow-lg p-8">
+              <h2 className="text-gray-500 text-sm uppercase">Status</h2>
 
+              <p className="mt-4 text-2xl font-bold text-purple-600">
                 {apiData.status}
               </p>
-            </>
-          )}
-        </div>
-      </div>
+            </div>
+          </div>
+        )}
+      </section>
     </main>
   );
 }
