@@ -1,3 +1,4 @@
+from api.prediction import router as prediction_router
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
@@ -292,3 +293,4 @@ def remove_machine(
         db,
         machine_id,
     )
+router.include_router(prediction_router)
